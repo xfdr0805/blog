@@ -10,7 +10,7 @@ env:
   GIT_EMAIL: xfdr0805@126.com
   DEPLOY_REPO: xfdr0805/xfdr0805.github.io
   DEPLOY_BRANCH: master
-  DEPLOY_REPO_GITEE: xfdr0805/xfdr0805
+  DEPLOY_REPO_GITEE: git@gitee.com:xfdr0805/xfdr0805.git
   DEPLOY_BRANCH_GITEE: master
 
 jobs:
