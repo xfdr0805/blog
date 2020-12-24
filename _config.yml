@@ -104,8 +104,7 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo:
-  #https://gitee.com/xfdr0805/xfdr0805, master
-  #https://github.com/xfdr0805/xfdr0805.github.io, master
+  repo: https://gitee.com/xfdr0805/xfdr0805, master
+  https://github.com/xfdr0805/xfdr0805.github.io, master
 #代码同时推送到 GitHub 和 Gitee
 #https://blog.csdn.net/zhuzbYR/article/details/99708449?utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-1.control
