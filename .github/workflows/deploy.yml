@@ -10,6 +10,8 @@ env:
   GIT_EMAIL: xfdr0805@126.com
   DEPLOY_REPO: xfdr0805/xfdr0805.github.io
   DEPLOY_BRANCH: master
+  DEPLOY_REPO_GITEE: git@gitee.com:xfdr0805/xfdr0805.git
+  DEPLOY_BRANCH_GITEE: master
 
 jobs:
   build:
@@ -23,6 +25,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Checkout gitee repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.DEPLOY_REPO_GITEE }}
+          ref: ${{ env.DEPLOY_BRANCH_GITEE }}
+          path: .deploy_git
 
       - name: Checkout deploy repo
         uses: actions/checkout@v2
