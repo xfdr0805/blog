@@ -10,7 +10,7 @@ env:
   GIT_EMAIL: xfdr0805@126.com
   DEPLOY_REPO: xfdr0805/xfdr0805.github.io
   DEPLOY_BRANCH: master
-  DEPLOY_REPO_GITEE: git@gitee.com:xfdr0805/xfdr0805.git
+  DEPLOY_REPO_GITEE: xfdr0805/xfdr0805
   DEPLOY_BRANCH_GITEE: master
 
 jobs:
@@ -54,6 +54,7 @@ jobs:
           echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-keyscan gitee.com >> ~/.ssh/known_hosts
           git config --global user.name $GIT_USER
           git config --global user.email $GIT_EMAIL
 
