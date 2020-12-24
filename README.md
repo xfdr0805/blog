@@ -7,4 +7,4 @@
  访问地址:https://xfdr0805.github.io or https://xfdr0805.gitee.io
 
 
-使用Github WorkFlow将Hexo
+使用Github WorkFlow将Hexo自动编译布置到github.io
