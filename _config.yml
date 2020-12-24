@@ -104,5 +104,5 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://gitee.com/xfdr0805/xfdr0805
-  branch: master
+  repo: https://gitee.com/xfdr0805/xfdr0805, master
+    https://github.com/xfdr0805/xfdr0805.github.io, master
