@@ -106,7 +106,7 @@ deploy:
   type: git
   repo:
     github: git@github.com:xfdr0805/xfdr0805.github.io.git
-    gitee: git@gitee.com:xfdr0805/xfdr0805.git
-  branch: master
+    #gitee: git@gitee.com:xfdr0805/xfdr0805.git
+  #branch: master
 #代码同时推送到 GitHub 和 Gitee 源码在github  blog仓库里
 #https://blog.csdn.net/zhuzbYR/article/details/99708449?utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-1.control
