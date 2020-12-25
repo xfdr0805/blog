@@ -19,3 +19,6 @@
  - 1.https://sanonz.github.io/2020/deploy-a-hexo-blog-from-github-actions/
  - 2.https://zhuanlan.zhihu.com/p/302530881
  - 3.还未找到原因
+
+添加新菜单:https://blog.csdn.net/qq_36408085/article/details/104117335
+图标地址:http://www.fontawesome.com.cn/icons-ui/

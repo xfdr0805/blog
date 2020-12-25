@@ -77,11 +77,14 @@ creative_commons:
 # Value before `||` delimiter is the target link, value after `||` delimiter is the name of Font Awesome icon.
 # External url should start with http:// or https://
 menu:
-  home: / || fa fa-home
-  about: /about/ || fa fa-user
+  home: / || fa fa-leaf
+  weather-station: /weather-station/ || fa fa-cloud
+  homekit: /homekit/ || fa fa-home
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
+  about: /about/ || fa fa-user
+
   #schedule: /schedule/ || fa fa-calendar
   #sitemap: /sitemap.xml || fa fa-sitemap
   #commonweal: /404/ || fa fa-heartbeat
@@ -673,11 +676,12 @@ cnzz_siteid:
 # Show number of visitors of each article.
 # You can visit https://www.leancloud.cn to get AppID and AppKey.
 leancloud_visitors:
-  enable: false
-  app_id: # <your app id>
-  app_key: # <your app key>
+  enable_sync: true
+  enable: true
+  app_id: OBbXXFHVRqDgtIAQQI1ApthR-gzGzoHsz
+  app_key: bCXsjKMx8RoalLY7TcJ1w1c5
   # Required for apps from CN region
-  server_url: # <your server url>
+  server_url: https://leancloud.cn
   # Dependencies: https://github.com/theme-next/hexo-leancloud-counter-security
   # If you don't care about security in leancloud counter and just want to use it directly
   # (without hexo-leancloud-counter-security plugin), set `security` to `false`.
