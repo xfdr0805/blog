@@ -78,8 +78,8 @@ creative_commons:
 # External url should start with http:// or https://
 menu:
   home: / || fa fa-leaf
-  weather-station: /weather-station/ || fa fa-cloud
-  homekit: /homekit/ || fa fa-home
+  weather-station: //categories/ESP32桌面气象站/ || fa fa-cloud
+  homekit: //categories/homekit/ || fa fa-home
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive

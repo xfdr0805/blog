@@ -15,7 +15,7 @@ menu:
   schedule: 日程表
   sitemap: 站点地图
   commonweal: 公益 404
-  weather-station: ESP桌面气象站
+  weather-station: ESP32桌面气象站
   homekit: HomeKit自动化
 sidebar:
   overview: 站点概览
