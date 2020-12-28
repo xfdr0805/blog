@@ -22,3 +22,6 @@
 
 添加新菜单:https://blog.csdn.net/qq_36408085/article/details/104117335
 图标地址:http://www.fontawesome.com.cn/icons-ui/
+
+GPS仿真:
+http://www.nmeasoft.com/product/gpssimulator/

@@ -115,22 +115,28 @@ Main components
 }
 .cd-timeline-img img {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   position: relative;
   left: 50%;
   top: 50%;
-  margin-left: -12px;
-  margin-top: -12px;
+  margin-left: -14px;
+  margin-top: -14px;
 }
-.cd-timeline-img.cd-picture {
+.cd-timeline-img.cd-code {
   background: #75ce66;
 }
-.cd-timeline-img.cd-movie {
+.cd-timeline-img.cd-bom {
   background: #c03b44;
 }
-.cd-timeline-img.cd-location {
+.cd-timeline-img.cd-ap {
   background: #f0ca45;
+}
+.cd-timeline-img.cd-apk {
+  background: #df56f0;
+}
+.cd-timeline-img.cd-apk {
+  background: #3f98f0;
 }
 @media only screen and (min-width: 1170px) {
   .cd-timeline-img {
@@ -188,7 +194,7 @@ Main components
   border-radius: 0.25em;
 }
 .no-touch .cd-timeline-content .cd-read-more:hover {
-  background-color: #bac4cb;  
+  background-color: #bac4cb;
 }
 a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .cd-timeline-content .cd-date {
