@@ -197,7 +197,8 @@ language_switcher: false
 footer:
   # Specify the year when the site was setup. If not defined, current year will be used.
   since: 2020
-
+  #统计
+  counter: true
   # Icon between year and copyright info.
   icon:
     # Icon name in Font Awesome. See: https://fontawesome.com/icons
@@ -676,8 +677,8 @@ cnzz_siteid:
 # Show number of visitors of each article.
 # You can visit https://www.leancloud.cn to get AppID and AppKey.
 leancloud_visitors:
-  enable_sync: true
-  enable: true
+  enable_sync: false
+  enable: false
   app_id: OBbXXFHVRqDgtIAQQI1ApthR-gzGzoHsz
   app_key: bCXsjKMx8RoalLY7TcJ1w1c5
   # Required for apps from CN region
@@ -699,7 +700,7 @@ firestore:
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
 busuanzi_count:
-  enable: false
+  enable: true
   total_visitors: true
   total_visitors_icon: fa fa-user
   total_views: true

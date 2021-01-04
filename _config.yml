@@ -44,6 +44,7 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
+update_at: true
 highlight:
   enable: true
   line_number: true
