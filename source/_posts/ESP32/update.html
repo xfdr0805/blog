@@ -2,7 +2,7 @@
 title: 固件更新记录---持续更新
 date: 2020-12-26 13:02:49
 tags: [ESP32,firmware]
-categories: ESP32桌面气象站
+categories: ESP32桌面气象站-LCD触控版
 ---
 
 <!DOCTYPE HTML>
@@ -25,6 +25,20 @@ h2.top_title span{font-size:12px; color:#666;font-weight:500}
 			<img src="/2020/12/26/ESP32/update/img/cd-icon-code.svg" alt="CODE">
 		</div>
 		<div class="cd-timeline-content">
+			<h2>V1.0.7</h2>
+			<p>+ 增加了微信扫码配网,在启动时可以选择热点配网和一键配网</p>
+			<p>+ 增加温湿度补偿功能，由于传感器封在壳子里及设备发热等因素，会比实际值偏高一点</p>
+			<p><a href="/2020/12/26/ESP32/update/flasher-esp32-t4-1-0-7.exe">点击下载</a></p>
+			<p style="color: red;">*注意:软件为x64位平台，不支持32位平台，需要python3运行环境 </p>
+			<p style="color: red;">*注意:软件可能会被杀毒软件拦截，请放行 </p>
+			<span class="cd-date">2021/01/23</span>
+		</div>
+	</div>
+	<div class="cd-timeline-block">
+		<div class="cd-timeline-img cd-code">
+			<img src="/2020/12/26/ESP32/update/img/cd-icon-code.svg" alt="CODE">
+		</div>
+		<div class="cd-timeline-content">
 			<h2>V1.0.6</h2>
 			<p>+ 数字时钟界面增加温度及节日，界面变化在设备界面展示那一个文档展示</p>
 			<p>+ 优化未来6天温度趋势图的显示</p>
@@ -32,9 +46,10 @@ h2.top_title span{font-size:12px; color:#666;font-weight:500}
 			<p>+ 增加PCF8563 or BM8563 RTC支持</p>
 			<p>- 修改在没有网络时不再自动进入热点模式 没有网络也可以使用</p>
 			<p>+ 启动界面添加倒计时功能 在启动时可以按下下载键进入热点配网模式</p>
-			<p><a href="/2020/12/26/ESP32/update/flasher-esp32-t4-1-0-6.exe">点击下载</a></p>
+			<p><a href="#">点击下载</a></p>
 			<span class="cd-date">2021/01/14</span>
 		</div>
+	</div>
 	<div class="cd-timeline-block">
 		<div class="cd-timeline-img cd-code">
 			<img src="/2020/12/26/ESP32/update/img/cd-icon-code.svg" alt="CODE">
