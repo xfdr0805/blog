@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>v3s上使用sox产生测试信号 | xfdr0805·点滴记忆</title><meta name="keywords" content="V3S,BT,Audio,sox"><meta name="author" content="xfdr0805"><meta name="copyright" content="xfdr0805"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号 从此处下载sox官网 解压后新建一个autoconfig.sh脚本 这里使用了绝对路径，使用相对路径在最后链接时找不到文件，所以直接使用了绝对路径,里边的一些插件如果不需要可以去掉，我也一起打包传上来，另外这手动编译依赖可真烦那，只能缺哪个下载哪个再编译哪个最后才能给链接出来，跟buildroot里3S钟把sox勾选上完事编译完事相比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="v3s上使用sox产生测试信号">
+<meta property="og:url" content="http://xfdr0805.gitee.io/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/index.html">
+<meta property="og:site_name" content="xfdr0805·点滴记忆">
+<meta property="og:description" content="交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号 从此处下载sox官网 解压后新建一个autoconfig.sh脚本 这里使用了绝对路径，使用相对路径在最后链接时找不到文件，所以直接使用了绝对路径,里边的一些插件如果不需要可以去掉，我也一起打包传上来，另外这手动编译依赖可真烦那，只能缺哪个下载哪个再编译哪个最后才能给链接出来，跟buildroot里3S钟把sox勾选上完事编译完事相比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2021-08-05T00:38:28.000Z">
+<meta property="article:modified_time" content="2021-08-27T07:39:51.244Z">
+<meta property="article:author" content="xfdr0805">
+<meta property="article:tag" content="V3S">
+<meta property="article:tag" content="BT">
+<meta property="article:tag" content="Audio">
+<meta property="article:tag" content="sox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://xfdr0805.gitee.io/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'v3s上使用sox产生测试信号',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-27 15:39:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='null'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">xfdr0805·点滴记忆</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">v3s上使用sox产生测试信号</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-27T07:39:51.244Z" title="更新于 2021-08-27 15:39:51">2021-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="v3s上使用sox产生测试信号"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号"><a href="#交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号" class="headerlink" title="交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号"></a>交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号</h2><ol>
+<li><p>从此处下载<a target="_blank" rel="noopener" href="http://sox.sourceforge.net/">sox官网</a> 解压后新建一个autoconfig.sh脚本<br> <code>这里使用了绝对路径，使用相对路径在最后链接时找不到文件，所以直接使用了绝对路径,里边的一些插件如果不需要可以去掉，我也一起打包传上来，另外这手动编译依赖可真烦那，只能缺哪个下载哪个再编译哪个最后才能给链接出来，跟buildroot里3S钟把sox勾选上完事编译完事相比，手动编译估计得3小时 ^*_*^，简直弱爆了</code><br> #!/bin/sh<br> ./configure <br> CC=”arm-linux-gnueabihf-gcc” <br> LDFLAGS=”-L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/alsa/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/flac-1.3.3/src/libFLAC/.libs -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/lame-3.100/libmp3lame/.libs/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/twolame-0.4.0/libtwolame/.libs/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/libmad-0.15.1b/.libs/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/libid3tag-0.15.1b/.libs/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/zlib-1.2.11” <br> CFLAGS=”-I/home/xfdr/v3s_licheepi_zero/buildroot-2021.02/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/ -I/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/lame-3.100/include/ -I/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/flac-1.3.3/src/libFLAC/ -I/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/twolame-0.4.0/libtwolame/ -I/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/libmad-0.15.1b/ -I/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/libid3tag-0.15.1b/“ <br> –prefix /opt/sox.14.4.2 <br> –host=arm-linux-gnueabihf <br> –target=arm-linux <br> –with-alsa <br> –with-flac <br> –with-mp3 <br> –with-id3tag <br> –with-lame <br> –with-wavpack <br> #–with-twolame \</p>
+</li>
+<li><p>编译完成后执行make install 即可，安装目录就是上边指定的,拷贝到开发板或者NFS目录下</p>
+</li>
+<li><p>先来播放音乐试一下<br> <code># ./sox.14.4.2/bin/play -t mp3 ./群星-雨花石.mp3</code><br> ./sox.14.4.2/bin/play WARN alsa: can’t encode 0-bit Unknown or not applicable</p>
+<p> ./群星-雨花石.mp3:</p>
+<p> File Size: 13.7M     Bit Rate: 321k<br> Encoding: MPEG audio    Info: 163 key(Don’t modify):cEgtqHxwpdRKcBCRPBlPkg2DgcBlNoDaE7DLI/2UHqynoBve87Svw+quIkOr72Ov7q2menCG1hUs953Iws8wjHxQUjhQGB3sa2Sa9AVOc0ek4+GcHOxN9VcDh3GNItlfDRG7Pi/y+oz0U3xrKMvDiHZErPJlv6SHCl/k5qddt6BXsgTw3fn/9fNu/LLy/lawUWghlFz+aUkza7omDosFsjHYbZYrBjDqcCegSdhUOA43QD89da8FaXkqPqcMQVYqEBm7uirR2NrhGOOGt29H8sgWqCZ1icsjX7XcnX0035IQQ5Fj3dVW49U4iJMDLJtbM9DDheK/KwCziC1y9ISodum8kf9PC7+b+JLNr/mhg5DifEjdqngnEHAzqRUNufhtjc530m+aglaPBRphTfryHMYPKTWq311dQFnn9Ru1rnrpjBwyc9avaOrd10VsncqCPRHdRET/f7ygAMyztzSPzQ==<br> Channels: 2 @ 16-bit   Track: 4<br> Samplerate: 44100Hz      Album: 女人如歌  柔情魅声<br> Replaygain: off         Artist: 群星<br> Duration: 00:05:40.79  Title: 雨花石</p>
+<p> In:1.23% 00:00:04.18 [00:05:36.61] Out:184k  [     =|==    ]        Clip:0<br> Aborted.<br> <code># ./sox.14.4.2/bin/play -t flac ./wodeloulan.flac</code><br> ./sox.14.4.2/bin/play WARN alsa: can’t encode 0-bit Unknown or not applicable</p>
+<p> ./wodeloulan.flac:</p>
+<p> File Size: 39.0M     Bit Rate: 952k<br> Encoding: FLAC<br> Channels: 2 @ 16-bit<br> Samplerate: 44100Hz      Album: 倔强<br> Replaygain: off         Artist: 云朵<br> Duration: 00:05:27.59  Title: 我的楼兰</p>
+<p> In:0.48% 00:00:01.58 [00:05:26.01] Out:69.6k [   ===|==-   ]        Clip:0<br> Aborted.</p>
+</li>
+<li><p>音乐播放没问题,也可以播放网络音频<br> <code># ./play -t flac http://192.168.6.123:8080/wodeloulan.flac</code><br> ./play WARN alsa: can’t encode 0-bit Unknown or not applicable</p>
+<p> <a target="_blank" rel="noopener" href="http://192.168.6.123:8080/wodeloulan.flac">http://192.168.6.123:8080/wodeloulan.flac</a>:</p>
+<p> File Size: 0         Bit Rate: 0<br> Encoding: FLAC<br> Channels: 2 @ 16-bit<br> Samplerate: 44100Hz      Album: 倔强<br> Replaygain: off         Artist: 云朵<br> Duration: 00:05:27.59  Title: 我的楼兰</p>
+<p> In:0.57% 00:00:01.86 [00:05:25.73] Out:81.9k [    ==|==-   ]        Clip:0<br> Aborted.</p>
+</li>
+<li><p>下边开始使用sox产生一些测试信号试试<br> 产生1Khz 44.1KHz 0dB 的sin pink white<br> play -V -r 48000 -b 16 -c 2 -n synth sin 1000 vol 0db<br> play -V -r 48000 -b 16 -c 2 -n synth pink 1000 vol 0db<br> play -V -r 48000 -b 16 -c 2 -n synth white 1000 vol 0db</p>
+<p> <code>#  ./play -V -r 48000 -b 16 -c 2 -n synth pink 1000 vol 0db</code><br> ./play WARN alsa: can’t encode 0-bit Unknown or not applicable<br> ./play:      SoX v14.4.2</p>
+<p> Input File     : ‘’ (null)<br> Channels       : 2<br> Sample Rate    : 48000<br> Precision      : 16-bit<br> Endian Type    : little<br> Reverse Nibbles: no<br> Reverse Bits   : no</p>
+<p> <code>./play INFO formats: can&#39;t set sample rate 48000; using 44100</code></p>
+<p> Output File    : ‘default’ (alsa)<br> Channels       : 2<br> Sample Rate    : 44100<br> Precision      : 16-bit<br> Sample Encoding: 16-bit Signed Integer PCM<br> Endian Type    : little<br> Reverse Nibbles: no<br> Reverse Bits   : no</p>
+<p> ./play INFO vol: has no effect in this configuration<br> ./play INFO sox: effects chain: input        48000Hz  2 channels<br> ./play INFO sox: effects chain: synth        48000Hz  2 channels<br> ./play INFO sox: effects chain: rate         44100Hz  2 channels<br> ./play INFO sox: effects chain: dither       44100Hz  2 channels<br> ./play INFO sox: effects chain: output       44100Hz  2 channels<br> In:0.00% 00:00:04.78 [00:00:00.00] Out:203k  [      |      ] Hd:3.4 Clip:0<br> Aborted.</p>
+</li>
+<li><p>从 20Hz 到 20kHz 的频率扫描，持续时间为 30 秒  音量0 重复10次<br> play -V -r 44100 -b -c 2 -n synth 30 sin 20+20000 vol 0db repeat 10</p>
+</li>
+<li><p>20-10kHz 和 1kHz-20kHz 双频扫描<br> play -V -r 44100 -n synth 30 sin 20+10000 sin 1000+20000 remix 1,2 channels 2</p>
+</li>
+<li><p>获取音频文件的各种信息</p>
+<pre><code> # ./sox.14.4.2/bin/soxi 群星-雨花石.mp3 
+
+ Input File     : &#39;群星-雨花石.mp3&#39;
+ Channels       : 2
+ Sample Rate    : 44100
+ Precision      : 16-bit
+ Duration       : 00:05:40.79 = 15028992 samples = 25559.5 CDDA sectors
+ File Size      : 13.7M
+ Bit Rate       : 321k
+ Sample Encoding: MPEG audio (layer I, II or III)
+ Comments       : 
+ Title=雨花石
+ Artist=群星
+ Album=女人如歌  柔情魅声
+ Tracknumber=4
+ Comment=163 key(Don&#39;t modify):cEgtqHxwpdRKcBCRPBlPkg2DgcBlNoDaE7DLI/2UHqynoBve87Svw+quIkOr72Ov7q2menCG1hUs953Iws8wjHxQUjhQGB3sa2Sa9AVOc0ek4+GcHOxN9VcDh3GNItlfDRG7Pi/y+oz0U3xrKMvDiHZErPJlv6SHCl/k5qddt6BXsgTw3fn/9fNu/LLy/lawUWghlFz+aUkza7omDosFsjHYbZYrBjDqcCegSdhUOA43QD89da8FaXkqPqcMQVYqEBm7uirR2NrhGOOGt29H8sgWqCZ1icsjX7XcnX0035IQQ5Fj3dVW49U4iJMDLJtbM9DDheK/KwCziC1y9ISodum8kf9PC7+b+JLNr/mhg5DifEjdqngnEHAzqRUNufhtjc530m+aglaPBRphTfryHMYPKTWq311dQFnn9Ru1rnrpjBwyc9avaOrd10VsncqCPRHdRET/f7ygAMyztzSPzQ==
+ Discnumber=1
+ # ./sox.14.4.2/bin/soxi   abc.flac 
+
+ Input File     : &#39;abc.flac&#39;
+ Channels       : 2
+ Sample Rate    : 44100
+ Precision      : 16-bit
+ Duration       : 00:04:14.76 = 11234921 samples = 19107 CDDA sectors
+ File Size      : 28.9M
+ Bit Rate       : 908k
+ Sample Encoding: 16-bit FLAC
+ Comments       : 
+ ALBUM ARTIST=彭佳慧
+ ARTIST=彭佳慧
+ TITLE=相见恨晚</code></pre>
+</li>
+</ol>
+<pre><code>    获取总时间
+    # ./sox.14.4.2/bin/soxi  -d abc.flac 
+    00:04:14.76
+    # ./sox.14.4.2/bin/soxi  -D abc.flac 
+    254.760113</code></pre>
+<ol start="9">
+<li><p>从任意位置播放歌曲</p>
+<pre><code> # ./sox.14.4.2/bin/play abc.flac  trim 53 =240
+ ./sox.14.4.2/bin/play WARN alsa: can&#39;t encode 0-bit Unknown or not applicable
+
+ abc.flac:
+
+ File Size: 28.9M     Bit Rate: 908k
+ Encoding: FLAC          
+ Channels: 2 @ 16-bit   
+ Samplerate: 44100Hz      
+ Replaygain: off         Artist: 彭佳慧
+ Duration: 00:04:14.76  Title: 相见恨晚
+
+ In:25.0% 00:01:03.59 [00:03:11.17] Out:467k  [-=====|=====-] Hd:0.2 Clip:0    
+ Aborted.
+ # ./sox.14.4.2/bin/play abc.flac  trim 100 =240
+ ./sox.14.4.2/bin/play WARN alsa: can&#39;t encode 0-bit Unknown or not applicable
+
+ abc.flac:
+
+ File Size: 28.9M     Bit Rate: 908k
+ Encoding: FLAC          
+ Channels: 2 @ 16-bit   
+ Samplerate: 44100Hz      
+ Replaygain: off         Artist: 彭佳慧
+ Duration: 00:04:14.76  Title: 相见恨晚
+
+ In:40.2% 00:01:42.51 [00:02:32.25] Out:111k  [======|======] Hd:0.2 Clip:0    
+ Aborted.</code></pre>
+</li>
+<li><p>从这条命令里还可以一直获取到当前播放进度，到这里你应该已经想到了，这不就可以做一个音乐播放器了嘛，需要的条件都已经满足了</p>
+</li>
+</ol>
+<h3 id="sox功能还有很多，不过这几个功能目前已经满足我的需要了，其它高级玩法就留给大家了"><a href="#sox功能还有很多，不过这几个功能目前已经满足我的需要了，其它高级玩法就留给大家了" class="headerlink" title="sox功能还有很多，不过这几个功能目前已经满足我的需要了，其它高级玩法就留给大家了"></a>sox功能还有很多，不过这几个功能目前已经满足我的需要了，其它高级玩法就留给大家了</h3></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/V3S/">V3S</a><a class="post-meta__tags" href="/tags/BT/">BT</a><a class="post-meta__tags" href="/tags/Audio/">Audio</a><a class="post-meta__tags" href="/tags/sox/">sox</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/"><img class="prev-cover" src="/null" onerror="onerror=null;src='/null'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">在V3S上使用红外接收头</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/26/ESP32-Epaper/index/"><img class="next-cover" src="/null" onerror="onerror=null;src='/null'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">墨水屏气象站</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-29</div><div class="title">v3s-bt-audio</div></div></a></div><div><a href="/2021/08/23/Linux/在Linux上使用红外遥控/" title="在V3S上使用红外接收头"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-23</div><div class="title">在V3S上使用红外接收头</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/null'" alt="avatar"/></div><div class="author-info__name">xfdr0805</div><div class="author-info__description">记录</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xfdr0805"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%9F%B3%E9%A2%91%E7%95%8C%E7%9A%84%E7%91%9E%E5%A3%AB%E5%86%9B%E5%88%80SOX%E5%B9%B6%E6%92%AD%E6%94%BE%E9%9F%B3%E4%B9%90%E5%B9%B6%E4%BA%A7%E7%94%9F%E5%90%84%E7%A7%8D%E6%B5%8B%E8%AF%95%E9%9F%B3%E9%A2%91%E4%BF%A1%E5%8F%B7"><span class="toc-number">1.</span> <span class="toc-text">交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sox%E5%8A%9F%E8%83%BD%E8%BF%98%E6%9C%89%E5%BE%88%E5%A4%9A%EF%BC%8C%E4%B8%8D%E8%BF%87%E8%BF%99%E5%87%A0%E4%B8%AA%E5%8A%9F%E8%83%BD%E7%9B%AE%E5%89%8D%E5%B7%B2%E7%BB%8F%E6%BB%A1%E8%B6%B3%E6%88%91%E7%9A%84%E9%9C%80%E8%A6%81%E4%BA%86%EF%BC%8C%E5%85%B6%E5%AE%83%E9%AB%98%E7%BA%A7%E7%8E%A9%E6%B3%95%E5%B0%B1%E7%95%99%E7%BB%99%E5%A4%A7%E5%AE%B6%E4%BA%86"><span class="toc-number">1.1.</span> <span class="toc-text">sox功能还有很多，不过这几个功能目前已经满足我的需要了，其它高级玩法就留给大家了</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio">v3s-bt-audio</a><time datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" title="在V3S上使用红外接收头">在V3S上使用红外接收头</a><time datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/" title="v3s上使用sox产生测试信号">v3s上使用sox产生测试信号</a><time datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/26/ESP32-Epaper/index/" title="墨水屏气象站">墨水屏气象站</a><time datetime="2021-01-26T06:59:10.000Z" title="发表于 2021-01-26 14:59:10">2021-01-26</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/25/ESP32/FAQ/" title="FAQ-常见问题列表">FAQ-常见问题列表</a><time datetime="2021-01-25T13:20:07.000Z" title="发表于 2021-01-25 21:20:07">2021-01-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By xfdr0805</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

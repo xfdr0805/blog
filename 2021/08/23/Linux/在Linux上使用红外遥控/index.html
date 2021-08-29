@@ -1,0 +1,595 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>在V3S上使用红外接收头 | xfdr0805·点滴记忆</title><meta name="keywords" content="V3S,Linux,LIRIC,红外遥控"><meta name="author" content="xfdr0805"><meta name="copyright" content="xfdr0805"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="确定要使用的GPIO,这里需要使用带外部中断的引脚,否则驱动注册失败 request:-22   这是我的设备树配置  ir_gpio &amp;#123;  compatible  &#x3D; &quot;gpio-ir-receiver&quot;;  gpios &#x3D; &lt;&amp;pio 1 5 GPIO_ACTIVE_LOW&gt;; &#x2F;* PB5 *&#x2F;  &#x2F;*active_low &#x3D; &lt;1&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在V3S上使用红外接收头">
+<meta property="og:url" content="http://xfdr0805.gitee.io/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/index.html">
+<meta property="og:site_name" content="xfdr0805·点滴记忆">
+<meta property="og:description" content="确定要使用的GPIO,这里需要使用带外部中断的引脚,否则驱动注册失败 request:-22   这是我的设备树配置  ir_gpio &amp;#123;  compatible  &#x3D; &quot;gpio-ir-receiver&quot;;  gpios &#x3D; &lt;&amp;pio 1 5 GPIO_ACTIVE_LOW&gt;; &#x2F;* PB5 *&#x2F;  &#x2F;*active_low &#x3D; &lt;1&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2021-08-23T07:41:53.000Z">
+<meta property="article:modified_time" content="2021-08-29T10:21:01.552Z">
+<meta property="article:author" content="xfdr0805">
+<meta property="article:tag" content="V3S">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="LIRIC">
+<meta property="article:tag" content="红外遥控">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://xfdr0805.gitee.io/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '在V3S上使用红外接收头',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-08-29 18:21:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='null'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">xfdr0805·点滴记忆</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">在V3S上使用红外接收头</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-29T10:21:01.552Z" title="更新于 2021-08-29 18:21:01">2021-08-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">19k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="在V3S上使用红外接收头"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><ol>
+<li><p>确定要使用的GPIO,这里需要使用带外部中断的引脚,否则驱动注册失败 request:-22 </p>
+<p> 这是我的设备树配置</p>
+<pre><code> ir_gpio &#123;
+ compatible  = &quot;gpio-ir-receiver&quot;;
+ gpios = &lt;&amp;pio 1 5 GPIO_ACTIVE_LOW&gt;; /* PB5 */
+ /*active_low = &lt;1&gt;;*/
+ linux,rc-map-name = &quot;rc-tevii-nec&quot;;
+ status = &quot;okay&quot;;</code></pre>
+<p> };</p>
+</li>
+<li><p>内核里修改 </p>
+<blockquote>
+<p>Device Drivers &gt; Remote Controller support &gt;</p>
+<pre><code> [*]   LIRC user interface                                             
+ [*]   Remote controller decoders  ---&gt;                                
+ [*]   Remote Controller devices  ---&gt;                                 
+       &lt;*&gt;   GPIO IR remote control </code></pre>
+</blockquote>
+</li>
+</ol>
+<ol start="3">
+<li><p>驱动成功加载会有如下输出</p>
+<p> [    1.223257] IR NEC protocol handler initialized<br> [    1.227806] IR RC5(x/sz) protocol handler initialized<br> [    1.232985] IR RC6 protocol handler initialized<br> [    1.237517] IR JVC protocol handler initialized<br> [    1.242080] IR Sony protocol handler initialized<br> [    1.246693] IR SANYO protocol handler initialized<br> [    1.251406] IR Sharp protocol handler initialized<br> [    1.256104] IR RCMM protocol handler initialized<br> [    1.261050] Registered IR keymap rc-tevii-nec<br> [    1.265477] rc rc0: gpio_ir_recv as /devices/platform/ir_gpio/rc/rc0<br> [    1.272194] rc rc0: lirc_dev: driver gpio_ir_recv registered at minor = 0, raw IR receiver, no transmitter<br> [    1.282144] input: gpio_ir_recv as /devices/platform/ir_gpio/rc/rc0/input3</p>
+</li>
+<li><p>此时查看/dev/input目录下,会有如下显示：</p>
+<pre><code> # evtest 
+ No device specified, trying to scan all of /dev/input/event*
+ Available devices:
+ /dev/input/event0:      1c22800.lradc
+ /dev/input/event1:      rotary@0
+ /dev/input/event2:      ns2009_ts
+ /dev/input/event3:      gpio_ir_recv</code></pre>
+<p> 此时如果用evtest测试按键是没有任何反应的，拿示波器测试信号是正常的<br> 没有问题，可就是evtest 没有任何反应,需要修改对应的驱动，此问题先留在这里<br> 不影响后续操作</p>
+</li>
+<li><p>后来查资料，发现可以用lirc里的工具去测试硬件是否OK,测试之前要先修改默认配置文件，不修改的话，同样没反应</p>
+<pre><code> # vi /etc/lirc/lirc_options.conf 
+ driver          = default
+ device          = /dev/lric0
+ 修改这2行就可以，里边driver默认是uinput,device默认是auto
+ 再次测试就有反应了
+ # mode2 -m -d /dev/lirc0
+ Using driver default on device /dev/lirc0
+ Trying device: /dev/lirc0
+ Using device: /dev/lirc0
+ Warning: Running as root.
+    9043     4402      626      497      656      499
+     624      499      656      499      624      499
+     656      499      624      499      624      531
+     624     1630      619     1624      655     1624
+     624     1624      624     1634      646     1624
+     624     1624      655     1624      593     1656
+     624      501      654     1624      593      534
+     652     1624      624      499      625     1624
+     656      504      619      499      655     1625
+     624      499      656     1625      593      531
+     624     1633      648      498      624     1624
+     624    40035  
+    9060     2184      624   143451-pulse   483450-space</code></pre>
+<p> 从这结果上可以明显的看出这些数值代表脉冲宽度，单位是us </p>
+</li>
+<li><p>使用irrecod -f -d /dev/lirc0 –disable-namespace来录制配置文件<br> 录制完成后放到 /etc/lric/liricd.conf.d/下边<br> !注意，这里录制的结果不准确，需要借助上边的命令来获取每一个按键的值,这里只是借用一下配置文件的格式,里边的数字是右对齐<br> 示例：</p>
+<pre><code> # Please take the time to finish this file as described in
+ # https://sourceforge.net/p/lirc-remotes/wiki/Checklist/
+ # and make it available to others by sending it to
+ # &lt;lirc@bartelmus.de&gt;
+ #
+ # This config file was automatically generated
+ # using lirc-0.10.1(default) on Thu Jan  1 01:37:06 1970
+ # Command line used: -f -d /dev/lirc0 --disable-namespace
+ # Kernel version (uname -r): 5.10.19
+ #
+ # Remote name (as of config file): elac
+ # Brand of remote device, the thing you hold in your hand:
+ # Remote device model nr:
+ # Remote device info url:
+ # Does remote device has a bundled capture device e. g., a
+ #     usb dongle? :
+ # For bundled USB devices: usb vendor id, product id
+ #     and device string (use dmesg or lsusb):
+ # Type of device controlled
+ #     (TV, VCR, Audio, DVD, Satellite, Cable, HTPC, ...) :
+ # Device(s) controlled by this remote:
+
+ begin remote
+
+ name  elac
+ flags RAW_CODES|CONST_LENGTH
+ eps            30
+ aeps          100
+
+ gap          108533
+
+     begin raw_codes
+
+         name Power
+        9043     4403      623      531      593      531
+         624      531      593      531      624      531
+         593      531      624      531      593      536
+         594     1680      592     1656      593     1656
+         625     1655      593     1666      582     1656
+         624     1656      593     1655      625      530
+         593      534      621      530      593     1656
+         624     1624      624      531      593      530
+         624      531      595     1655      623     1655
+         593     1656      593      530      624      531
+         593     1664      616     1656      593     1656
+         593
+
+         name BT
+        9041     4407      622      531      593      531
+         593      562      593      531      593      531
+         625      533      596      525      624      530
+         593     1656      624     1656      593     1655
+         593     1664      616     1655      593     1656
+         593     1656      624     1658      591      530
+         624     1656      593      531      624      531
+         593      531      593      531      624     1661
+         587      530      624     1656      593      531
+         593     1687      593     1656      601     1648
+         624     1656      593      531      593     1656
+         624
+
+     name Vol+
+        9013     4437      592      530      593      562
+         593      531      624      531      593      531
+         594      565      589      530      593      531
+         624     1656      593     1656      624     1665
+         590     1651      591     1656      624     1655
+         593     1656      593     1667      613      531
+         593     1656      624     1656      593      531
+         593      562      595      528      593     1656
+         624      531      593     1656      624      531
+         593      530      593     1659      621     1655
+         593     1656      593      562      593     1656
+         593
+
+     name Vol-
+        9044     4436      592      531      624      531
+         593      533      622      530      593      531
+         593      531      624      531      593      530
+         624     1656      593     1661      595     1679
+         593     1655      593     1656      624     1656
+         593     1667      582     1659      620      530
+         593     1656      624     1656      600      524
+         624     1656      593      531      593      531
+         624      531      593     1656      624      531
+         598      530      620     1654      593      531
+         624     1625      624     1656      593     1666
+         614
+
+     name Pre
+        9048     4403      592      562      593      530
+         593      562      593      530      593      531
+         624      531      593      531      624      531
+         593     1661      593     1680      592     1656
+         593     1656      624     1656      603     1650
+         588     1656      623     1656      593     1656
+         624     1662      587     1655      593      531
+         624      531      593      531      624     1656
+         593      531      631      524      593      530
+         593      562      593     1656      593     1656
+         624     1663      586      530      624     1624
+         624
+
+     name Next
+        9022     4425      593      530      624      531
+         593      531      624      531      597      527
+         623      531      593      531      593      562
+         593     1656      593     1656      624     1663
+         585     1655      624     1656      593     1656
+         593     1656      633     1646      593     1656
+         593      562      593     1656      593      530
+         624     1658      591      531      593      562
+         593      531      624      531      593     1656
+         624      499      624     1659      591      530
+         624     1656      593     1656      593     1687
+         601
+
+     name Play
+        9027     4431      592      531      624      531
+         593      531      624      531      593      531
+         593      562      593      531      624      531
+         598     1652      592     1655      624     1656
+         593     1656      624     1633      616     1656
+         593     1656      624     1624      624     1656
+         595      529      624     1656      593      531
+         593     1687      593      531      593     1665
+         620      526      592      530      624     1656
+         593      531      594     1655      624      531
+         593     1665      615      531      593     1656
+         624
+
+     name Ana1
+        9044     4408      621      530      593      530
+         624      531      593      531      593      562
+         593      531      593      562      593      531
+         593     1655      624     1656      593     1655
+         597     1654      621     1655      593     1655
+         624     1624      624     1665      584      530
+         625      530      593     1656      593      562
+         593      531      624      499      624      531
+         599      525      624     1655      593     1656
+         593      562      593     1656      593     1659
+         621     1655      593     1656      593     1656
+         624
+
+     name Ana2
+        9040     4402      656      500      624      499
+         656      499      624      499      624      531
+         624      499      624      531      624      499
+         624     1632      655     1628      589     1650
+         593     1655      624     1655      593     1670
+         610     1656      593     1656      593      531
+         624     1656      596     1655      590      562
+         593      531      624      500      624      531
+         593      531      624     1656      599      529
+         620      530      593     1656      624     1625
+         624     1656      593     1662      619     1656
+         593
+
+     name Opt1
+        9016     4435      624      530      593      531
+         624      533      591      531      624      531
+         593      531      593      562      593      531
+         593     1656      624     1685      564     1655
+         624     1624      624     1656      593     1656
+         637     1643      593     1656      593      531
+         624      531      593     1656      624      531
+         596     1653      624      531      593      531
+         593      562      593     1656      593     1656
+         630      526      591     1656      624      531
+         593     1656      593     1656      624     1664
+         585
+
+     name Opt2
+        9043     4403      655      499      624      499
+         656      499      627      497      656      499
+         624      499      625      530      624      502
+         628     1618      655     1654      601     1619
+         623     1624      656     1624      624     1624
+         656     1636      613     1625      624      499
+         656      499      624      499      656      499
+         624     1626      622      531      624      499
+         624      531      624     1624      624     1624
+         624     1662      618     1624      624      499
+         656     1624      624     1624      624     1665
+         615
+
+     name Coax
+        9015     4439      591      531      624      531
+         593      530      624      531      593      531
+         593      562      593      531      593      531
+         624     1656      593     1656      624     1656
+         611     1642      589     1655      624     1656
+         593     1656      593     1668      613     1655
+         593     1656      593     1656      624      531
+         593     1658      622      531      593      530
+         593      562      593      531      624      531
+         656      468      593     1656      630      525
+         592     1655      593     1687      593     1656
+         593
+     name USB
+        9050     4433      593      531      594      561
+         593      531      593      531      624      531
+         593      531      624      530      593      531
+         624     1656      603     1645      593     1656
+         624     1656      593     1655      624     1659
+         590     1655      593     1656      624      531
+         593      531      624      531      593      537
+         618      530      593      531      624     1656
+         593      531      624     1624      624     1662
+         587     1655      624     1655      593     1656
+         593     1656      632      523      593     1656
+         624
+
+     end raw_codes
+
+ end remote</code></pre>
+</li>
+<li><p>接下来使用irw来验证刚才录制的是否正确</p>
+<pre><code> # irw
+ lircd-0.10.1[432]: Notice: accepted new client on /var/run/lirc/lircd
+ lircd-0.10.1[432]: Info: [lirc] protocol is enabled
+ 0000000000000001 00 Power elac
+ 0000000000000002 00 BT elac
+ 0000000000000003 00 Vol+ elac
+ 0000000000000004 00 Vol- elac
+ 0000000000000008 00 Ana1 elac
+ 000000000000000a 00 Opt1 elac
+ 000000000000000b 00 Opt2 elac</code></pre>
+</li>
+<li><p>然后在/etc/lirc/目录下创建lircrc配置文件或~/.lircrc<br> 格式如下 </p>
+<pre><code> begin
+         prog = irexec
+         button = Power
+         repeat = 0
+         config = echo &quot;power&quot;
+ end
+ begin
+         prog = irexec
+         button = Vol+
+         repeat = 1
+         config = amixer -M -c 0 sset &#39;Headphone&#39;,0 1%+ &gt; /dev/null
+ end
+ begin
+         prog = irexec
+         button = Vol-
+         repeat = 1
+         config = amixer -M -c 0 sset &#39;Headphone&#39;,0 1%- &gt; /dev/null
+ end</code></pre>
+<p> 保存</p>
+</li>
+<li><p>最后就是使用irexec来进行各种操作了,无需编程，到这里可以自由发挥了，想要集成到代码里也很简单，看下图</p>
+<pre><code> # irexec 
+ lircd-0.10.1[448]: Notice: accepted new client on /var/run/lirc/lircd
+ lircd-0.10.1[448]: Info: [lirc] protocol is enabled
+ power
+ Simple mixer control &#39;Headphone&#39;,0
+ Capabilities: pvolume pvolume-joined pswitch
+ Playback channels: Front Left - Front Right
+ Limits: Playback 0 - 63
+ Mono:
+ Front Left: Playback 47 [54%] [-16.00dB] [on]
+ Front Right: Playback 47 [54%] [-16.00dB] [on]
+ Simple mixer control &#39;Headphone&#39;,0
+ Capabilities: pvolume pvolume-joined pswitch
+ Playback channels: Front Left - Front Right
+ Limits: Playback 0 - 63
+ Mono:
+ Front Left: Playback 45 [50%] [-18.00dB] [on]
+ Front Right: Playback 45 [50%] [-18.00dB] [on]
+ power</code></pre>
+</li>
+<li><p>LIRC处理流程</p>
+<pre><code>        +--------+         +-------------+                     +--------+
+        |        |         | Linux input |                     | Appli- |
+ ---&gt;---| kernel |----&gt;----| layer       |----------&gt;----------| cation |
+        |        |         |             |  /dev/input/eventX  |        |
+        +--------+         +-------------+                     +--------+
+
+        +--------+         +-------------+
+        |        |         | Linux input |
+ ---&gt;---| kernel |----&gt;----| layer       |
+        |        |         |             |
+        +--------+         +-------------+
+                                    |
+                                    v
+                                    |
+                                    |                           +--------+
+                            +-------------+                     | Appli- |
+                            |    lirc     |----------&gt;----------| cation |-+
+                            |             |     lirc socket     |        | |
+                            +-------------+                     +--------+ |-+
+                                                                    |        | |
+                                                                    +--------+ |
+                                                                    |        |
+                                                                    +--------+
+
+        +--------+         +-------------+                     +--------+
+        |        |         |             |                     | Appli- |
+ ---&gt;---| kernel |----&gt;----|    lirc     |----------&gt;----------| cation |-+
+        |        |         |             |     lirc socket     |        | |
+        +--------+         +-------------+                     +--------+ |-+
+                                                                    |        | |
+                                                                    +--------+ |
+                                                                    |        |
+                                                                    +--------+</code></pre>
+</li>
+<li><p>通过socket使用lirc,不需要引入任何文件，可以方便的集成到代码里，就是上述第三种方式</p>
+<pre><code>struct sigaction act;
+char buf[128];
+struct sockaddr_un addr;
+typedef struct
+&#123;
+    char addr[32];
+    char code[8];
+    char type[16];
+    char name[16];
+&#125; IRW_DATA;
+IRW_DATA irw_data;
+act.sa_handler = sigusr1;
+sigfillset(&amp;act.sa_mask);
+act.sa_flags = SA_RESTART; /* don&#39;t fiddle with EINTR */
+sigaction(SIGUSR1, &amp;act, NULL);
+addr.sun_family = AF_UNIX;
+strcpy(addr.sun_path, &quot;/var/run/lirc/lircd&quot;);
+fd_lircd = socket(AF_UNIX, SOCK_STREAM | SOCK_NONBLOCK, 0);
+if (fd_lircd == -1)
+&#123;
+    printf(&quot;Create socket failed\n&quot;);
+&#125;
+if (connect(fd_lircd, (struct sockaddr *)&amp;addr, sizeof(addr)) == -1)
+&#123;
+    printf(&quot;Cannot connect to socket %s\n&quot;, addr.sun_path);
+&#125;
+while (1)
+&#123;
+    // lircd
+    if (read(fd_lircd, buf, 128) &gt; 0)
+    &#123;
+        LOG_D(&quot;%s\n&quot;, buf);
+        char *p = strtok(buf, &quot; &quot;);
+        int i = 0;
+        while (p)
+        &#123;
+            // LOG_D(&quot;%s\n&quot;, p);
+            if (i == 0)
+                strcpy(irw_data.addr, p);
+            else if (i == 1)
+                strcpy(irw_data.code, p);
+            else if (i == 2)
+                strcpy(irw_data.type, p);
+            else if (i == 3)
+                strcpy(irw_data.name, p);
+            p = strtok(NULL, &quot; &quot;);
+            i++;
+        &#125;
+        LOG_D(&quot;%s\n&quot;, irw_data.type);
+        switch ((uint8_t)strtol(irw_data.addr, NULL, 10))
+        &#123;
+        case Vol_up:
+            rotary_encoder_handler(&amp;u8g2, -1);
+            break;
+        case Vol_down:
+            rotary_encoder_handler(&amp;u8g2, 1);
+            break;
+        case Play:
+            rotary_encoder_button_handler(&amp;u8g2);
+            break;
+        case Bt:
+            printf(&quot;BT button\n&quot;);
+            break;
+        &#125;
+    &#125;
+&#125;</code></pre>
+</li>
+</ol>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/V3S/">V3S</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/LIRIC/">LIRIC</a><a class="post-meta__tags" href="/tags/%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/">红外遥控</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/29/Linux/v3s-bt-audio/"><img class="prev-cover" src="/null" onerror="onerror=null;src='/null'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">v3s-bt-audio</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/"><img class="next-cover" src="/null" onerror="onerror=null;src='/null'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">v3s上使用sox产生测试信号</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/08/05/Linux/v3s上使用sox产生测试信号/" title="v3s上使用sox产生测试信号"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-05</div><div class="title">v3s上使用sox产生测试信号</div></div></a></div><div><a href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-29</div><div class="title">v3s-bt-audio</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/null'" alt="avatar"/></div><div class="author-info__name">xfdr0805</div><div class="author-info__description">记录</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xfdr0805"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio">v3s-bt-audio</a><time datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" title="在V3S上使用红外接收头">在V3S上使用红外接收头</a><time datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/" title="v3s上使用sox产生测试信号">v3s上使用sox产生测试信号</a><time datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/26/ESP32-Epaper/index/" title="墨水屏气象站">墨水屏气象站</a><time datetime="2021-01-26T06:59:10.000Z" title="发表于 2021-01-26 14:59:10">2021-01-26</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/25/ESP32/FAQ/" title="FAQ-常见问题列表">FAQ-常见问题列表</a><time datetime="2021-01-25T13:20:07.000Z" title="发表于 2021-01-25 21:20:07">2021-01-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By xfdr0805</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

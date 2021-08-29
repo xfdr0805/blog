@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>xfdr0805·点滴记忆 - 点滴记忆</title><meta name="keywords" content="esp32,esp8266,homekit,v3s"><meta name="author" content="xfdr0805"><meta name="copyright" content="xfdr0805"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录">
+<meta property="og:type" content="website">
+<meta property="og:title" content="xfdr0805·点滴记忆">
+<meta property="og:url" content="http://xfdr0805.gitee.io/index.html">
+<meta property="og:site_name" content="xfdr0805·点滴记忆">
+<meta property="og:description" content="记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:author" content="xfdr0805">
+<meta property="article:tag" content="esp32,esp8266,homekit,v3s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://xfdr0805.gitee.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'xfdr0805·点滴记忆',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-08-29 18:59:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='null'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">xfdr0805·点滴记忆</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio">v3s-bt-audio</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="content">全志V3S上通过蓝牙播放音乐我使用的是RTL8723DS模块，引脚与BS是兼容的，内核使用的是5.10, Bluez使用的是5.55 终端是UART0，蓝牙串口使用的是UART2，板子是参照licheepi 自己画的
+参考链接BT参考链接WIFI参考链接
+
+
+
+首先在buildroot里勾选上bluez5-utils,bluez-tools及blue-alsa
+
+在内核里勾选
+ [*]UART(H4) protocol support
+ [*]Realtek Three-wireUART(H5) protocol support
+ 系统启动时会显示如下信息：
+ Starting kernel ...
+
+ [    0.000000] Booting Linux on physical CPU 0x0
+ [    0.000000] Linux version 5.10.19 (xfdr@virtualbox) (arm-linux-gnueabihf-gcc (Linaro GCC 7.5-2019.12) 7.5.0, GNU ld (Linaro_Binutils-2019.12) ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" title="在V3S上使用红外接收头">在V3S上使用红外接收头</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time></span></div><div class="content">
+确定要使用的GPIO,这里需要使用带外部中断的引脚,否则驱动注册失败 request:-22 
+ 这是我的设备树配置
+ ir_gpio &#123;
+ compatible  = &quot;gpio-ir-receiver&quot;;
+ gpios = &lt;&amp;pio 1 5 GPIO_ACTIVE_LOW&gt;; /* PB5 */
+ /*active_low = &lt;1&gt;;*/
+ linux,rc-map-name = &quot;rc-tevii-nec&quot;;
+ status = &quot;okay&quot;;
+ };
+
+内核里修改 
+
+Device Drivers &gt; Remote Controller support &gt;
+ [*]   LIRC user interface                                             
+ [*]   Remote controller decoders  ---&gt;                                
+ [*]    ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/" title="v3s上使用sox产生测试信号">v3s上使用sox产生测试信号</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="content">交叉编译音频界的瑞士军刀SOX并播放音乐并产生各种测试音频信号
+从此处下载sox官网 解压后新建一个autoconfig.sh脚本 这里使用了绝对路径，使用相对路径在最后链接时找不到文件，所以直接使用了绝对路径,里边的一些插件如果不需要可以去掉，我也一起打包传上来，另外这手动编译依赖可真烦那，只能缺哪个下载哪个再编译哪个最后才能给链接出来，跟buildroot里3S钟把sox勾选上完事编译完事相比，手动编译估计得3小时 ^*_*^，简直弱爆了 #!/bin/sh ./configure  CC=”arm-linux-gnueabihf-gcc”  LDFLAGS=”-L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/alsa/ -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/flac-1.3.3/src/libFLAC/.libs -L/home/xfdr/v3s_licheepi_zero/sox-14.4.2-sonavox/lame-3.100/libmp3lame/.libs/  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/01/26/ESP32-Epaper/index/" title="墨水屏气象站">墨水屏气象站</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-26T06:59:10.000Z" title="发表于 2021-01-26 14:59:10">2021-01-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-%E5%A2%A8%E6%B0%B4%E5%B1%8F%E7%89%88/">ESP32桌面气象站-墨水屏版</a></span></div><div class="content">ESP32桌面气象站-墨水屏版  正在开发中</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/01/25/ESP32/FAQ/" title="FAQ-常见问题列表">FAQ-常见问题列表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-25T13:20:07.000Z" title="发表于 2021-01-25 21:20:07">2021-01-25</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-LCD%E8%A7%A6%E6%8E%A7%E7%89%88/">ESP32桌面气象站-LCD触控版</a></span></div><div class="content">FAQ-常见问题列表以下是常见的问题列表，在配置过程中，有不明白的地方先看看下边有没有你碰到的问题，如果还是解决不了再来问店主，不要上来就问，请先按步骤操作一遍后再来问，我不是专业卖家，我要上班的，不一定能及时回复信息，请理解，谢谢！
+
+问：微信扫码后，提示配网超时
+答：请确保手机连接的是2.4G WIFI，不支持5G 的WIFI 。
+
+
+问：在和风天气申请的key在验证时提示无效（invaild key）的key怎么办？
+答：请将输入框全部删除再粘贴即可
+
+
+问：在和风天气申请的key在验证时提示无权限（permission denied）怎么办？
+答：请实名认证为个人开发者即可
+
+
+问：在和风天气申请的key提示无权限怎么办？
+答：请实名认证为个人开发者即可
+
+
+问：温度显示偏高怎么办
+答：由于传感器装在壳子里，且里边芯片在工作时会发热等原因造成测的温度比实际值偏高，可以在设置里的其它页面里进行补偿
+
+
+问：为什么我在浏览器里无法打开http://weather.local 这个参数配置界面
+答：此网址是mDNS解析，已经测试过谷歌Chrome，微软新版Edge，火狐Firefox ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/12/29/HomeKit/sonoff-1ch/" title="Sonoff-1CH">Sonoff-1CH</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-29T08:00:53.000Z" title="发表于 2020-12-29 16:00:53">2020-12-29</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/homekit/">homekit</a></span></div><div class="content">
+待续…</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/12/28/HomeKit/sonoff-2ch/" title="Sonoff-2CH">Sonoff-2CH</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-28T08:00:53.000Z" title="发表于 2020-12-28 16:00:53">2020-12-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/homekit/">homekit</a></span></div><div class="content">
+待续…</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/12/26/HomeKit/sonoff-4ch/" title="Sonoff-4CH">Sonoff-4CH</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-26T08:00:53.000Z" title="发表于 2020-12-26 16:00:53">2020-12-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/homekit/">homekit</a></span></div><div class="content">
+待续…</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/12/26/ESP32/update/" title="固件更新记录---持续更新">固件更新记录---持续更新</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-26T05:02:49.000Z" title="发表于 2020-12-26 13:02:49">2020-12-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-LCD%E8%A7%A6%E6%8E%A7%E7%89%88/">ESP32桌面气象站-LCD触控版</a></span></div><div class="content">
+
+
+
+
+
+固件更新记录时间轴
+
+
+h2.top_title{border-bottom:none;background:none;text-align:center;line-height:32px; font-size:20px}
+h2.top_title span{font-size:12px; color:#666;font-weight:500}
+
+
+
+4.0触屏版
+
+	
+		
+			
+		
+		
+			V1.0.7
+			+ 增加了微信扫码配网,在启动时可以选择热点配网和一键配网
+			+ 增加温湿度补偿功能，由于传感器封在壳子里及设备发热等因素，会比实际值偏高一点
+			点击下载
+			*注意:软件为x64位平台，不支持32位平台，需要python3运行环境 
+			*注意:软件可能会被杀毒软件拦截，请放行 
+			2021/01/23
+		
+	
+	
+		
+			
+		
+		
+			V1.0.6
+			+ 数字时钟界面增加温度及节日，界面变化在设备界面展示那一个文档展示
+			+ 优化未来6天温度趋势图的显示
+			+ 优化GPS对时逻辑 第一次对时成功会滴一声
+			+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2020/12/26/ESP32/webpage/" title="web配置界面在线体验">web配置界面在线体验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-26T04:02:49.000Z" title="发表于 2020-12-26 12:02:49">2020-12-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-LCD%E8%A7%A6%E6%8E%A7%E7%89%88/">ESP32桌面气象站-LCD触控版</a></span></div><div class="content">
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    WIFI桌面气象站
+    
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            /* Set the fixed height of the footer here */
+            line-height: 60px;
+            /* Vertically center the text there */
+            background-color: #f5f5f5;
+        }
+
+        #brightness-slider .slider-selection {
+            background: rgb(0, 155, 245);
+        }
+
+        label {
+            ma ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/null'" alt="avatar"/></div><div class="author-info__name">xfdr0805</div><div class="author-info__description">记录</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xfdr0805"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio">v3s-bt-audio</a><time datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" title="在V3S上使用红外接收头">在V3S上使用红外接收头</a><time datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/" title="v3s上使用sox产生测试信号">v3s上使用sox产生测试信号</a><time datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/26/ESP32-Epaper/index/" title="墨水屏气象站">墨水屏气象站</a><time datetime="2021-01-26T06:59:10.000Z" title="发表于 2021-01-26 14:59:10">2021-01-26</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/25/ESP32/FAQ/" title="FAQ-常见问题列表">FAQ-常见问题列表</a><time datetime="2021-01-25T13:20:07.000Z" title="发表于 2021-01-25 21:20:07">2021-01-25</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-LCD%E8%A7%A6%E6%8E%A7%E7%89%88/"><span class="card-category-list-name">ESP32桌面气象站-LCD触控版</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ESP32%E6%A1%8C%E9%9D%A2%E6%B0%94%E8%B1%A1%E7%AB%99-%E5%A2%A8%E6%B0%B4%E5%B1%8F%E7%89%88/"><span class="card-category-list-name">ESP32桌面气象站-墨水屏版</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Linux/"><span class="card-category-list-name">Linux</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/homekit/"><span class="card-category-list-name">homekit</span><span class="card-category-list-count">3</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/1ch/" style="font-size: 1.1em; color: #999">1ch</a> <a href="/tags/2ch/" style="font-size: 1.1em; color: #999">2ch</a> <a href="/tags/4ch/" style="font-size: 1.1em; color: #999">4ch</a> <a href="/tags/Audio/" style="font-size: 1.23em; color: #999ea6">Audio</a> <a href="/tags/BT/" style="font-size: 1.23em; color: #999ea6">BT</a> <a href="/tags/ESP32/" style="font-size: 1.5em; color: #99a9bf">ESP32</a> <a href="/tags/LIRIC/" style="font-size: 1.1em; color: #999">LIRIC</a> <a href="/tags/Linux/" style="font-size: 1.1em; color: #999">Linux</a> <a href="/tags/V3S/" style="font-size: 1.37em; color: #99a4b2">V3S</a> <a href="/tags/epaper/" style="font-size: 1.1em; color: #999">epaper</a> <a href="/tags/firmware/" style="font-size: 1.23em; color: #999ea6">firmware</a> <a href="/tags/sonoff/" style="font-size: 1.37em; color: #99a4b2">sonoff</a> <a href="/tags/sox/" style="font-size: 1.1em; color: #999">sox</a> <a href="/tags/%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" style="font-size: 1.1em; color: #999">红外遥控</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">八月 2021</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">9</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">14</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">50k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-08-29T10:59:12.406Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By xfdr0805</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>v3s-bt-audio | xfdr0805·点滴记忆</title><meta name="keywords" content="V3S,BT,Audio"><meta name="author" content="xfdr0805"><meta name="copyright" content="xfdr0805"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="全志V3S上通过蓝牙播放音乐我使用的是RTL8723DS模块，引脚与BS是兼容的，内核使用的是5.10, Bluez使用的是5.55 终端是UART0，蓝牙串口使用的是UART2，板子是参照licheepi 自己画的 参考链接BT参考链接WIFI参考链接    首先在buildroot里勾选上bluez5-utils,bluez-tools及blue-alsa  在内核里勾选  [*]UART(H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="v3s-bt-audio">
+<meta property="og:url" content="http://xfdr0805.gitee.io/2021/08/29/Linux/v3s-bt-audio/index.html">
+<meta property="og:site_name" content="xfdr0805·点滴记忆">
+<meta property="og:description" content="全志V3S上通过蓝牙播放音乐我使用的是RTL8723DS模块，引脚与BS是兼容的，内核使用的是5.10, Bluez使用的是5.55 终端是UART0，蓝牙串口使用的是UART2，板子是参照licheepi 自己画的 参考链接BT参考链接WIFI参考链接    首先在buildroot里勾选上bluez5-utils,bluez-tools及blue-alsa  在内核里勾选  [*]UART(H">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2021-08-29T10:19:10.531Z">
+<meta property="article:modified_time" content="2021-07-28T05:06:01.179Z">
+<meta property="article:author" content="xfdr0805">
+<meta property="article:tag" content="V3S">
+<meta property="article:tag" content="BT">
+<meta property="article:tag" content="Audio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://xfdr0805.gitee.io/2021/08/29/Linux/v3s-bt-audio/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'v3s-bt-audio',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-28 13:06:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='null'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">xfdr0805·点滴记忆</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">v3s-bt-audio</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-28T05:06:01.179Z" title="更新于 2021-07-28 13:06:01">2021-07-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">35k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>NaN:aN分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="v3s-bt-audio"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="全志V3S上通过蓝牙播放音乐"><a href="#全志V3S上通过蓝牙播放音乐" class="headerlink" title="全志V3S上通过蓝牙播放音乐"></a>全志V3S上通过蓝牙播放音乐</h2><p><code>我使用的是RTL8723DS模块，引脚与BS是兼容的，内核使用的是5.10, Bluez使用的是5.55 终端是UART0，蓝牙串口使用的是UART2，板子是参照licheepi 自己画的</code></p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/yocop/drv_bt_rtl8723ds">参考链接</a><br><a target="_blank" rel="noopener" href="https://github.com/Poco-Ye/rtl8723DS-BT-uart-driver">BT参考链接</a><br><a target="_blank" rel="noopener" href="https://github.com/lwfinger/rtl8723ds">WIFI参考链接</a></p>
+<img src="/2021/08/29/Linux/v3s-bt-audio/2021-07-28_T.png" class="" title="top">
+<img src="/2021/08/29/Linux/v3s-bt-audio/2021-07-28_B.png" class="" title="top">
+<ol>
+<li><p>首先在buildroot里勾选上bluez5-utils,bluez-tools及blue-alsa</p>
+</li>
+<li><p>在内核里勾选</p>
+<pre><code> [*]UART(H4) protocol support
+ [*]Realtek Three-wireUART(H5) protocol support</code></pre>
+<p> 系统启动时会显示如下信息：</p>
+<pre><code> Starting kernel ...
+
+ [    0.000000] Booting Linux on physical CPU 0x0
+ [    0.000000] Linux version 5.10.19 (xfdr@virtualbox) (arm-linux-gnueabihf-gcc (Linaro GCC 7.5-2019.12) 7.5.0, GNU ld (Linaro_Binutils-2019.12) 2.28.2.20170706) #13 SMP Fri Jul 23 12:00:59 CST 2021
+ [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c5387d
+ [    0.000000] CPU: div instructions available: patching division code
+ [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+ [    0.000000] OF: fdt: Machine model: Lichee Pi Zero with Dock
+ [    0.000000] Memory policy: Data cache writealloc
+ [    0.000000] cma: Reserved 16 MiB at 0x41c00000
+ [    0.000000] Zone ranges:
+ [    0.000000]   Normal   [mem 0x0000000040000000-0x0000000043ffffff]
+ [    0.000000]   HighMem  empty
+ [    0.000000] Movable zone start for each node
+ [    0.000000] Early memory node ranges
+ [    0.000000]   node   0: [mem 0x0000000040000000-0x0000000043ffffff]
+ [    0.000000] Initmem setup node 0 [mem 0x0000000040000000-0x0000000043ffffff]
+ [    0.000000] psci: probing for conduit method from DT.
+ [    0.000000] psci: Using PSCI v0.1 Function IDs from DT
+ [    0.000000] percpu: Embedded 15 pages/cpu s31052 r8192 d22196 u61440
+ [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 16256
+ [    0.000000] Kernel command line: console=ttyS0,115200 panic=5 console=ttyS0 rootwait vt.global_cursor_default=0 root=/dev/mmcblk0p2 earlyprintk rw
+ [    0.000000] Dentry cache hash table entries: 8192 (order: 3, 32768 bytes, linear)
+ [    0.000000] Inode-cache hash table entries: 4096 (order: 2, 16384 bytes, linear)
+ [    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+ [    0.000000] Memory: 34900K/65536K available (8192K kernel code, 918K rwdata, 2244K rodata, 1024K init, 284K bss, 14252K reserved, 16384K cma-reserved, 0K highmem)
+ [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+ [    0.000000] rcu: Hierarchical RCU implementation.
+ [    0.000000] rcu:     RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=1.
+ [    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+ [    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+ [    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+ [    0.000000] GIC: Using split EOI/Deactivate mode
+ [    0.000000] random: get_random_bytes called from start_kernel+0x328/0x4c0 with crng_init=0
+ [    0.000000] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
+ [    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+ [    0.000008] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+ [    0.000022] Switching to timer-based delay loop, resolution 41ns
+ [    0.000278] clocksource: timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
+ [    0.000593] Console: colour dummy device 80x30
+ [    0.000661] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=240000)
+ [    0.000684] pid_max: default: 32768 minimum: 301
+ [    0.000852] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+ [    0.000873] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
+ [    0.001748] CPU: Testing write buffer coherency: ok
+ [    0.002186] /cpus/cpu@0 missing clock-frequency property
+ [    0.002218] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+ [    0.002989] Setting up static identity map for 0x40100000 - 0x40100060
+ [    0.003218] rcu: Hierarchical SRCU implementation.
+ [    0.003764] smp: Bringing up secondary CPUs ...
+ [    0.003792] smp: Brought up 1 node, 1 CPU
+ [    0.003802] SMP: Total of 1 processors activated (48.00 BogoMIPS).
+ [    0.003811] CPU: All CPU(s) started in HYP mode.
+ [    0.003818] CPU: Virtualization extensions available.
+ [    0.004452] devtmpfs: initialized
+ [    0.008373] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+ [    0.008733] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+ [    0.008771] futex hash table entries: 256 (order: 2, 16384 bytes, linear)
+ [    0.009561] pinctrl core: initialized pinctrl subsystem
+ [    0.011091] NET: Registered protocol family 16
+ [    0.012326] DMA: preallocated 256 KiB pool for atomic coherent allocations
+ [    0.013612] thermal_sys: Registered thermal governor &#39;step_wise&#39;
+ [    0.014006] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+ [    0.014032] hw-breakpoint: maximum watchpoint size is 8 bytes.
+ [    0.036802] SCSI subsystem initialized
+ [    0.037553] usbcore: registered new interface driver usbfs
+ [    0.037622] usbcore: registered new interface driver hub
+ [    0.037689] usbcore: registered new device driver usb
+ [    0.037967] mc: Linux media interface: v0.10
+ [    0.038015] videodev: Linux video capture interface: v2.00
+ [    0.038161] pps_core: LinuxPPS API ver. 1 registered
+ [    0.038174] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti &lt;giometti@linux.it&gt;
+ [    0.038198] PTP clock support registered
+ [    0.038880] Advanced Linux Sound Architecture Driver Initialized.
+ [    0.039575] Bluetooth: Core ver 2.22
+ [    0.039667] NET: Registered protocol family 31
+ [    0.039679] Bluetooth: HCI device and connection manager initialized
+ [    0.039703] Bluetooth: HCI socket layer initialized
+ [    0.039717] Bluetooth: L2CAP socket layer initialized
+ [    0.039750] Bluetooth: SCO socket layer initialized
+ [    0.040956] clocksource: Switched to clocksource arch_sys_counter
+ [    0.052288] NET: Registered protocol family 2
+ [    0.053034] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 6144 bytes, linear)
+ [    0.053084] TCP established hash table entries: 1024 (order: 0, 4096 bytes, linear)
+ [    0.053112] TCP bind hash table entries: 1024 (order: 1, 8192 bytes, linear)
+ [    0.053136] TCP: Hash tables configured (established 1024 bind 1024)
+ [    0.053298] UDP hash table entries: 256 (order: 1, 8192 bytes, linear)
+ [    0.053357] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes, linear)
+ [    0.053602] NET: Registered protocol family 1
+ [    0.054648] RPC: Registered named UNIX socket transport module.
+ [    0.054681] RPC: Registered udp transport module.
+ [    0.054690] RPC: Registered tcp transport module.
+ [    0.054698] RPC: Registered tcp NFSv4.1 backchannel transport module.
+ [    0.056301] Initialise system trusted keyrings
+ [    0.056732] workingset: timestamp_bits=30 max_order=14 bucket_order=0
+ [    0.063874] NFS: Registering the id_resolver key type
+ [    0.063951] Key type id_resolver registered
+ [    0.063960] Key type id_legacy registered
+ [    0.064015] ntfs: driver 2.1.32 [Flags: R/W].
+ [    0.163771] Key type asymmetric registered
+ [    0.163804] Asymmetric key parser &#39;x509&#39; registered
+ [    0.163906] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 246)
+ [    0.163922] io scheduler mq-deadline registered
+ [    0.163931] io scheduler kyber registered
+ [    0.168836] sun8i-v3s-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
+ [    0.169687] sun8i-v3s-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
+ [    0.170628] pwm-backlight backlight: supply power not found, using dummy regulator
+ [    0.171287] pwm-backlight backlight: invalid default brightness level: 100, using 6
+ [    0.239906] Serial: 8250/16550 driver, 8 ports, IRQ sharing disabled
+ [    0.244637] printk: console [ttyS0] disabled
+ [    0.264964] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 45, base_baud = 1500000) is a U6_16550A
+ [    0.932953] printk: console [ttyS0] enabled
+ [    0.938208] sun8i-v3s-pinctrl 1c20800.pinctrl: supply vcc-pe not found, using dummy regulator
+ [    0.968606] 1c28400.serial: ttyS1 at MMIO 0x1c28400 (irq = 46, base_baud = 1500000) is a U6_16550A
+ [    0.999932] 1c28800.serial: ttyS2 at MMIO 0x1c28800 (irq = 47, base_baud = 1500000) is a U6_16550A
+ [    1.014962] panel-simple panel: supply power not found, using dummy regulator
+ [    1.022545] panel-simple panel: Specify missing connector_type
+ [    1.030391] libphy: Fixed MDIO Bus: probed
+ [    1.035212] CAN device driver interface
+ [    1.039657] dwmac-sun8i 1c30000.ethernet: IRQ eth_wake_irq not found
+ [    1.046143] dwmac-sun8i 1c30000.ethernet: IRQ eth_lpi not found
+ [    1.052210] dwmac-sun8i 1c30000.ethernet: No regulator found
+ [    1.057984] dwmac-sun8i 1c30000.ethernet: PTP uses main clock
+ [    1.064221] dwmac-sun8i 1c30000.ethernet: No HW DMA feature register supported
+ [    1.071527] dwmac-sun8i 1c30000.ethernet: RX Checksum Offload Engine supported
+ [    1.078747] dwmac-sun8i 1c30000.ethernet: COE Type 2
+ [    1.083730] dwmac-sun8i 1c30000.ethernet: TX Checksum insertion supported
+ [    1.090514] dwmac-sun8i 1c30000.ethernet: Normal descriptors
+ [    1.096184] dwmac-sun8i 1c30000.ethernet: Chain mode enabled
+ [    1.101867] dwmac-sun8i 1c30000.ethernet: device MAC address d6:56:90:e0:09:09
+ [    1.109732] libphy: stmmac: probed
+ [    1.114430] dwmac-sun8i 1c30000.ethernet: Found internal PHY node
+ [    1.121248] libphy: mdio_mux: probed
+ [    1.124869] dwmac-sun8i 1c30000.ethernet: Switch mux to internal PHY
+ [    1.131286] dwmac-sun8i 1c30000.ethernet: Powering internal PHY
+ [    1.139085] ehci_hcd: USB 2.0 &#39;Enhanced&#39; Host Controller (EHCI) Driver
+ [    1.145759] ehci-platform: EHCI generic platform driver
+ [    1.151239] ohci_hcd: USB 1.1 &#39;Open&#39; Host Controller (OHCI) Driver
+ [    1.157465] ohci-platform: OHCI generic platform driver
+ [    1.164161] input: 1c22800.lradc as /devices/platform/soc/1c22800.lradc/input/input0
+ [    1.173440] rotary-encoder rotary@0: gray
+ [    1.178460] input: rotary@0 as /devices/platform/rotary@0/input/input1
+ [    1.187134] sun6i-rtc 1c20400.rtc: registered as rtc0
+ [    1.192416] sun6i-rtc 1c20400.rtc: setting system clock to 1970-01-01T01:26:51 UTC (5211)
+ [    1.200591] sun6i-rtc 1c20400.rtc: RTC enabled
+ [    1.205482] i2c /dev entries driver
+ [    1.210476] input: ns2009_ts as /devices/platform/soc/1c2ac00.i2c/i2c-0/0-0048/input/input2
+ [    1.220426] Driver for 1-wire Dallas network protocol.
+ [    1.227208] sunxi-wdt 1c20ca0.watchdog: Watchdog enabled (timeout=16 sec, nowayout=0)
+ [    1.235342] Bluetooth: HCI UART driver ver 2.3
+ [    1.239793] Bluetooth: HCI UART protocol H4 registered
+ [    1.245041] Bluetooth: HCI UART protocol Three-wire (H5) registered
+ [    1.252426] sun8i-v3s-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
+ [    1.263407] sun8i-v3s-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
+ [    1.274623] ledtrig-cpu: registered to indicate activity on CPUs
+ [    1.281222] sun4i-ss 1c15000.crypto: Die ID 7
+ [    1.288761] usbcore: registered new interface driver usbhid
+ [    1.294484] usbhid: USB HID core driver
+ [    1.299370] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+ [    1.306740] sunxi-mmc 1c10000.mmc: initialized, max. request size: 16384 KB
+ [    1.316119] sun4i-codec 1c22c00.codec: Failed to register our card
+ [    1.324501] NET: Registered protocol family 17
+ [    1.328998] can: controller area network core
+ [    1.333627] NET: Registered protocol family 29
+ [    1.338086] can: raw protocol
+ [    1.341133] can: broadcast manager protocol
+ [    1.345329] can: netlink gateway - max_hops=1
+ [    1.350297] Bluetooth: RFCOMM TTY layer initialized
+ [    1.355353] Bluetooth: RFCOMM socket layer initialized
+ [    1.360538] Bluetooth: RFCOMM ver 1.11
+ [    1.364363] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+ [    1.369672] Bluetooth: BNEP filters: protocol multicast
+ [    1.374928] Bluetooth: BNEP socket layer initialized
+ [    1.379890] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+ [    1.385825] Bluetooth: HIDP socket layer initialized
+ [    1.391148] Key type dns_resolver registered
+ [    1.395595] Registering SWP/SWPB emulation handler
+ [    1.400448] Loading compiled-in X.509 certificates
+ [    1.437437] sun4i-drm display-engine: bound 1100000.mixer (ops 0xc097c610)
+ [    1.445077] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops 0xc097891c)
+ [    1.453961] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
+ [    1.465480] sunxi-mmc 1c10000.mmc: card claims to support voltages below defined range
+ [    1.475874] mmc1: new high speed SDIO card at address 0001
+ [    1.493616] mmc0: host does not support reading read-only switch, assuming write-enable
+ [    1.495706] mmc0: new high speed SDHC card at address 0002
+ [    1.496918] mmcblk0: mmc0:0002 MSD20 3.73 GiB 
+ [    1.499651]  mmcblk0: p1 p2 p3
+ [    1.507412] Console: switching to colour frame buffer device 100x30
+ [    1.566756] sun4i-drm display-engine: [drm] fb0: sun4i-drmdrmfb frame buffer device
+ [    1.576864] debugfs: Directory &#39;1c22c00.codec&#39; with parent &#39;V3s Audio Codec&#39; already present!
+ [    1.591054] ALSA device list:
+ [    1.594055]   #0: V3s Audio Codec
+ [    1.612781] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+ [    1.621158] VFS: Mounted root (ext4 filesystem) on device 179:2.
+ [    1.629553] devtmpfs: mounted
+ [    1.633946] Freeing unused kernel memory: 1024K
+ [    1.638711] Run /sbin/init as init process
+ [    1.690069] random: fast init done
+ [    1.792914] EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)
+ Starting syslogd: OK
+ Starting klogd: OK
+ Running sysctl: OK
+ Starting mdev... OK
+ [    3.206544] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+ [    3.248879] cfg80211: Loaded X.509 cert &#39;sforshee: 00b28ddf47aef9cea7&#39;
+ [    3.258062] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
+ [    3.266896] cfg80211: failed to load regulatory.db
+ [    3.359658] 8723ds: module is from the staging directory, the quality is unknown, you have been warned.
+ Initializing random number generator: OK
+ Saving random seed: [    3.742299] random: dd: uninitialized urandom read (512 bytes read)
+ OK
+ Starting system message bus: [    3.812938] random: dbus-uuidgen: uninitialized urandom read (12 bytes read)
+ [    3.820155] random: dbus-uuidgen: uninitialized urandom read (8 bytes read)
+ done
+ Starting bluetoothd: OK
+ Starting network: OK
+ [    6.200965] random: crng init done
+ [    6.204396] random: 3 urandom warning(s) missed due to ratelimiting
+ Starting sshd: OK
+ Welcome to Buildroot for the LicheePi Zero
+ licheepi-zero login: </code></pre>
+</li>
+<li><p>UART2默认速率是9600可以使用cat /dev/ttyS2来测试串口是否正常</p>
+</li>
+<li><p>使用rtk_hciattach绑定uart端口</p>
+<pre><code> rtk_hciattach -n -s 115200/dev/ttyS2 rtk_h5 &amp;</code></pre>
+<p><code>注意这个过程需要加载固件才行，如果固件不存在、不匹配或者错误就会失败。需要把固件放到提示的位置</code></p>
+</li>
+<li><p>固件及配置文件加载完后 </p>
+<pre><code> Realtek Bluetooth :Init Process finished 
+ Realtek Bluetooth post process 
+ Device setup complete </code></pre>
+<p><code>出现这个说明蓝牙模块初始化完成 此时hci0蓝牙端口已经生成,使用hciconfig工具可以查看端口及状态</code></p>
+</li>
+<li><p>hciconfig -a </p>
+<pre><code> hci0:   Type: Primary  Bus: UART 
+     BD Address: 34:20:03:AA:A3:7E  ACL MTU: 1021:8  SCO MTU: 255:12 
+     UP RUNNING PSCAN ISCAN 
+     RX bytes:165747 acl:159 sco:0 events:1160 errors:0 
+     TX bytes:16622 acl:158 sco:0 commands:225 errors:0 
+     Features: 0xff 0xff 0xff 0xfe 0xdb 0xfd 0x7b 0x87 
+     Packet type: DM1 DM3 DM5 DH1 DH3 DH5 HV1 HV2 HV3 
+     Link policy: RSWITCH HOLD SNIFF PARK 
+     Link mode: SLAVE ACCEPT 
+     Name: &#39;Sonavox-BT&#39; 
+     Class: 0x040428 
+     Service Classes: Rendering 
+     Device Class: Audio/Video, HiFi Audio Device 
+     HCI Version: 4.1 (0x7)  Revision: 0xaa7a 
+     LMP Version: 4.1 (0x7)  Subversion: 0x8cb2 
+     Manufacturer: Realtek Semiconductor Corporation (93) </code></pre>
+</li>
+<li><p>bluealsa -p a2dp-sink &amp;<br> <code>建立bluez与alsa之前的桥梁，否则无法播放音频，只能连接上</code></p>
+</li>
+<li><p>bluetoothd启动需要加载一些配置文件在/etc/bluetooth/main.conf 不加载也可以 </p>
+<pre><code> #Default adaper name
+ #Defaults to &#39;BlueZ X.YZ&#39;
+ Name = Sonavox-BT
+
+ #Default device class. Only the major and minor device class bits are
+ #considered. Defaults to &#39;0x000000&#39;.
+ Class = 0x000428
+
+ #How long to stay in discoverable mode before going back to non-discoverable
+ #The value is in seconds. Default is 180, i.e. 3 minutes.
+ #0 = disable timer, i.e. stay discoverable forever
+ DiscoverableTimeout = 0
+
+ #How long to stay in pairable mode before going back to non-discoverable
+ #The value is in seconds. Default is 0.
+ #0 = disable timer, i.e. stay pairable forever
+ PairableTimeout = 0
+
+ #Automatic connection for bonded devices driven by platform/user events.
+ #If a platform plugin uses this mechanism, automatic connections will be
+ #enabled during the interval defined below. Initially, this feature
+ #intends to be used to establish connections to ATT channels. Default is 60.
+ AutoConnectTimeout = 60</code></pre>
+</li>
+<li><p>使用蓝牙界的瑞士军刀bluetoothctl来调试蓝牙</p>
+</li>
+<li><p>下面是可用的命令</p>
+<pre><code>Available commands:
+-------------------
+advertise                                         Advertise Options Submenu
+scan                                              Scan Options Submenu
+gatt                                              Generic Attribute Submenu
+list                                              List available controllers
+show [ctrl]                                       Controller information
+select &lt;ctrl&gt;                                     Select default controller
+devices                                           List available devices
+paired-devices                                    List paired devices
+system-alias &lt;name&gt;                               Set controller alias
+reset-alias                                       Reset controller alias
+power &lt;on/off&gt;                                    Set controller power
+pairable &lt;on/off&gt;                                 Set controller pairable mode
+discoverable &lt;on/off&gt;                             Set controller discoverable mode
+discoverable-timeout [value]                      Set discoverable timeout
+agent &lt;on/off/capability&gt;                         Enable/disable agent with given capability
+default-agent                                     Set agent as the default one
+advertise &lt;on/off/type&gt;                           Enable/disable advertising with given type
+set-alias &lt;alias&gt;                                 Set device alias
+scan &lt;on/off&gt;                                     Scan for devices
+info [dev]                                        Device information
+pair [dev]                                        Pair with device
+cancel-pairing [dev]                              Cancel pairing with device
+trust [dev]                                       Trust device
+untrust [dev]                                     Untrust device
+block [dev]                                       Block device
+unblock [dev]                                     Unblock device
+remove &lt;dev&gt;                                      Remove device
+connect &lt;dev&gt;                                     Connect device
+disconnect [dev]                                  Disconnect device
+menu &lt;name&gt;                                       Select submenu
+version                                           Display version
+quit                                              Quit program
+exit                                              Quit program
+help                                              Display help about this program
+export                                            Print environment variables</code></pre>
+</li>
+<li><p>操作记录如下: trust dev 之后，再连接就不再提示密码了，直接连接上</p>
+<pre><code>[bluetooth]# discoverable on
+Changing discoverable on succeeded
+[bluetooth]# pairable on
+Changing pairable on succeeded
+[CHG] Device D8:8F:76:51:A7:87 Connected: yes
+Request confirmation
+[agent] Confirm passkey 151930 (yes/no): yes
+Authorize service
+[agent] Authorize service 0000110d-0000-1000-8000-00805f9b34fb (yes/no):
+[CHG] Device D8:8F:76:51:A7:87 ServicesResolved: yes
+[agent] Authorize service 0000110d-0000-1000-8000-00805f9b34fb (yes/no): yes
+Authorize service
+[agent] Authorize service 0000110e-0000-1000-8000-00805f9b34fb (yes/no): yes
+[ 2681.328397] input: iPhone (AVRCP) as /devices/virtual/input/#input5
+[iPhone]# list
+Controller 34:20:03:AA:A3:7E Sonavox-BT [default]
+[iPhone]# devices
+Device D8:8F:76:51:A7:87 iPhone
+[iPhone]# info
+Device D8:8F:76:51:A7:87 (public)
+        Name: iPhone
+        Alias: iPhone
+        Class: 0x007a020c
+        Icon: phone
+        Paired: yes
+        Trusted: no
+        Blocked: no
+        Connected: yes
+        LegacyPairing: no
+        UUID: Vendor specific           (00000000-deca-fade-deca-deafdecacafe)
+        UUID: Service Discovery Serve.. (00001000-0000-1000-8000-00805f9b34fb)
+        UUID: Audio Source              (0000110a-0000-1000-8000-00805f9b34fb)
+        UUID: A/V Remote Control Target (0000110c-0000-1000-8000-00805f9b34fb)
+        UUID: Advanced Audio Distribu.. (0000110d-0000-1000-8000-00805f9b34fb)
+        UUID: A/V Remote Control        (0000110e-0000-1000-8000-00805f9b34fb)
+        UUID: NAP                       (00001116-0000-1000-8000-00805f9b34fb)
+        UUID: Handsfree Audio Gateway   (0000111f-0000-1000-8000-00805f9b34fb)
+        UUID: Phonebook Access Server   (0000112f-0000-1000-8000-00805f9b34fb)
+        UUID: Message Access Server     (00001132-0000-1000-8000-00805f9b34fb)
+        UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
+        UUID: Current Time Service      (00001805-0000-1000-8000-00805f9b34fb)
+        UUID: Device Information        (0000180a-0000-1000-8000-00805f9b34fb)
+        UUID: Battery Service           (0000180f-0000-1000-8000-00805f9b34fb)
+        UUID: Vendor specific           (02030302-1d19-415f-86f2-22a2106a0a77)
+        UUID: Vendor specific           (7905f431-b5ce-4e99-a40f-4b1e122d00d0)
+        UUID: Vendor specific           (89d3502b-0f36-433a-8ef4-c502ad55f8dc)
+        UUID: Vendor specific           (9fa480e0-4967-4542-9390-d343dc5d04ae)
+        UUID: Vendor specific           (d0611e78-bbb4-4591-a5f8-487910ae4366)
+        Modalias: bluetooth:v004Cp710Cd0E70
+        Battery Percentage: 0x55 (85)
+[iPhone]# quit
+
+# cat /proc/bus/input/devices
+I: Bus=0019 Vendor=0001 Product=0001 Version=0100
+N: Name=&quot;1c22800.lradc&quot;
+P: Phys=sun4i_lradc/input0
+S: Sysfs=/devices/platform/soc/1c22800.lradc/input/input0
+U: Uniq=
+H: Handlers=kbd event0 
+B: PROP=0
+B: EV=3
+B: KEY=3 0 0 0 0 0 0 0 c0000 0 0 0
+
+I: Bus=0019 Vendor=0000 Product=0000 Version=0000
+N: Name=&quot;rotary@0&quot;
+P: Phys=
+S: Sysfs=/devices/platform/rotary@0/input/input1
+U: Uniq=
+H: Handlers=event1 
+B: PROP=0
+B: EV=5
+B: REL=1
+
+I: Bus=0018 Vendor=0000 Product=0000 Version=0000
+N: Name=&quot;ns2009_ts&quot;
+P: Phys=input/ts
+S: Sysfs=/devices/platform/soc/1c2ac00.i2c/i2c-0/0-0048/input/input2
+U: Uniq=
+H: Handlers=event2 
+B: PROP=0
+B: EV=b
+B: KEY=400 0 0 0 0 0 0 0 0 0 0
+B: ABS=3
+
+I: Bus=0005 Vendor=004c Product=710c Version=0e70
+N: Name=&quot;iPhone (AVRCP)&quot;
+P: Phys=34:20:03:aa:a3:7e
+S: Sysfs=/devices/virtual/input/input5
+U: Uniq=
+H: Handlers=kbd event3 
+B: PROP=0
+B: EV=100007
+B: KEY=2fc800 1452 0 0 0 0 10300 49e8 c00 e1680 f f8100000 10000ffc
+B: REL=0</code></pre>
+</li>
+<li><p>通过AVRCP来控制手机上一曲，下一曲等 <a target="_blank" rel="noopener" href="https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/media-api.txt">https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/media-api.txt</a><br><code>注意这里的蓝牙地址是你手机的，不是蓝牙模块的，因为要控制的是你的手机进行一一曲，下一曲的，地址不对会提示错误，就是这个原因</code></p>
+<pre><code>Error org.freedesktop.DBus.Error.UnknownObject: Method &quot;Previous&quot; with signature &quot;&quot; on interface &quot;org.bluez.MediaControl1&quot; doesn&#39;t exist 
+
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.Pause
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.Play
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.Previous
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.Next
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.VolumeUp
+# dbus-send --system --print-reply --dest=org.bluez /org/bluez/hci0/dev_D8_8F_76_51_A7_87 org.bluez.MediaControl1.VolumeDown
+以下返回结果，可以看到&quot;org.bluez.MediaControl1&quot;已经注册了，但是提示已废弃，新的方法是&quot;org.bluez.MediaPlay1&quot;,但是我这里用不了
+&lt;node&gt;
+    &lt;interface name=&quot;org.freedesktop.DBus.Introspectable&quot;&gt;
+        &lt;method name=&quot;Introspect&quot;&gt;
+            &lt;arg name=&quot;xml&quot; type=&quot;s&quot; direction=&quot;out&quot;/&gt;
+        &lt;/method&gt;
+    &lt;/interface&gt;
+    &lt;interface name=&quot;org.bluez.Device1&quot;&gt;
+        &lt;method name=&quot;Disconnect&quot;&gt;&lt;/method&gt;
+        &lt;method name=&quot;Connect&quot;&gt;&lt;/method&gt;
+        &lt;method name=&quot;ConnectProfile&quot;&gt;
+            &lt;arg name=&quot;UUID&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;DisconnectProfile&quot;&gt;
+            &lt;arg name=&quot;UUID&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Pair&quot;&gt;&lt;/method&gt;
+        &lt;method name=&quot;CancelPairing&quot;&gt;&lt;/method&gt;
+        &lt;property name=&quot;Address&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;AddressType&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Name&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Alias&quot; type=&quot;s&quot; access=&quot;readwrite&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Class&quot; type=&quot;u&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Appearance&quot; type=&quot;q&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Icon&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Paired&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Trusted&quot; type=&quot;b&quot; access=&quot;readwrite&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Blocked&quot; type=&quot;b&quot; access=&quot;readwrite&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;LegacyPairing&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;RSSI&quot; type=&quot;n&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Connected&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;UUIDs&quot; type=&quot;as&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Modalias&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Adapter&quot; type=&quot;o&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;ManufacturerData&quot; type=&quot;a&#123;qv&#125;&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;ServiceData&quot; type=&quot;a&#123;sv&#125;&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;TxPower&quot; type=&quot;n&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;ServicesResolved&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;WakeAllowed&quot; type=&quot;b&quot; access=&quot;readwrite&quot;&gt;&lt;/property&gt;
+    &lt;/interface&gt;
+    &lt;interface name=&quot;org.freedesktop.DBus.Properties&quot;&gt;
+        &lt;method name=&quot;Get&quot;&gt;
+            &lt;arg name=&quot;interface&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;name&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;value&quot; type=&quot;v&quot; direction=&quot;out&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Set&quot;&gt;
+            &lt;arg name=&quot;interface&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;name&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;value&quot; type=&quot;v&quot; direction=&quot;in&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;GetAll&quot;&gt;
+            &lt;arg name=&quot;interface&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;properties&quot; type=&quot;a&#123;sv&#125;&quot; direction=&quot;out&quot;/&gt;
+        &lt;/method&gt;
+        &lt;signal name=&quot;PropertiesChanged&quot;&gt;
+            &lt;arg name=&quot;interface&quot; type=&quot;s&quot;/&gt;
+            &lt;arg name=&quot;changed_properties&quot; type=&quot;a&#123;sv&#125;&quot;/&gt;
+            &lt;arg name=&quot;invalidated_properties&quot; type=&quot;as&quot;/&gt;
+        &lt;/signal&gt;
+    &lt;/interface&gt;
+    &lt;interface name=&quot;org.bluez.Network1&quot;&gt;
+        &lt;method name=&quot;Connect&quot;&gt;
+            &lt;arg name=&quot;uuid&quot; type=&quot;s&quot; direction=&quot;in&quot;/&gt;
+            &lt;arg name=&quot;interface&quot; type=&quot;s&quot; direction=&quot;out&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Disconnect&quot;&gt;&lt;/method&gt;
+        &lt;property name=&quot;Connected&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Interface&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;UUID&quot; type=&quot;s&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+    &lt;/interface&gt;
+    &lt;interface name=&quot;org.bluez.MediaControl1&quot;&gt;
+        &lt;method name=&quot;Play&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Pause&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Stop&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Next&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Previous&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;VolumeUp&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;VolumeDown&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;FastForward&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;method name=&quot;Rewind&quot;&gt;
+            &lt;annotation name=&quot;org.freedesktop.DBus.Deprecated&quot; value=&quot;true&quot;/&gt;
+        &lt;/method&gt;
+        &lt;property name=&quot;Connected&quot; type=&quot;b&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;Player&quot; type=&quot;o&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+    &lt;/interface&gt;
+    &lt;interface name=&quot;org.bluez.Battery1&quot;&gt;
+        &lt;property name=&quot;Percentage&quot; type=&quot;y&quot; access=&quot;read&quot;&gt;&lt;/property&gt;
+    &lt;/interface&gt;
+    &lt;node name=&quot;fd1&quot;/&gt;
+    &lt;node name=&quot;player2&quot;/&gt;
+    &lt;node name=&quot;sep1&quot;/&gt;
+    &lt;node name=&quot;sep2&quot;/&gt;
+    &lt;node name=&quot;sep3&quot;/&gt;
+    &lt;node name=&quot;sep4&quot;/&gt;
+    &lt;node name=&quot;sep5&quot;/&gt;
+    &lt;node name=&quot;sep6&quot;/&gt;
+    &lt;node name=&quot;service0006&quot;/&gt;
+    &lt;node name=&quot;service000a&quot;/&gt;
+    &lt;node name=&quot;service000f&quot;/&gt;
+    &lt;node name=&quot;service0014&quot;/&gt;
+    &lt;node name=&quot;service0018&quot;/&gt;
+    &lt;node name=&quot;service001e&quot;/&gt;
+    &lt;node name=&quot;service0023&quot;/&gt;
+    &lt;node name=&quot;service002d&quot;/&gt;
+&lt;/node&gt;&quot;</code></pre>
+</li>
+<li><p>另外在蓝牙连接成功时会在/dev/input/目录下注册一个event3</p>
+<pre><code>I: Bus=0005 Vendor=004c Product=710c Version=0e70
+N: Name=&quot;iPhone (AVRCP)&quot;
+P: Phys=34:20:03:aa:a3:7e
+S: Sysfs=/devices/virtual/input/input5
+U: Uniq=
+H: Handlers=kbd event3 
+B: PROP=0
+B: EV=100007
+B: KEY=2fc800 1452 0 0 0 0 10300 49e8 c00 e1680 f f8100000 10000ffc
+B: REL=0</code></pre>
+<p>我偿试过使用sendevent 去操作/dev/input/event3 但是没有任何反应，不知道能不能这样操作？</p>
+<pre><code># ./sendevent /dev/input/event3 1 116 1
+# ./sendevent /dev/input/event3 0 0 0
+# ./sendevent /dev/input/event3 1 114 1</code></pre>
+</li>
+<li><p>至此，蓝牙 DLNA，Airplay可以同时播放音乐了</p>
+</li>
+</ol>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/V3S/">V3S</a><a class="post-meta__tags" href="/tags/BT/">BT</a><a class="post-meta__tags" href="/tags/Audio/">Audio</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/"><img class="next-cover" src="/null" onerror="onerror=null;src='/null'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">在V3S上使用红外接收头</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/08/05/Linux/v3s上使用sox产生测试信号/" title="v3s上使用sox产生测试信号"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-05</div><div class="title">v3s上使用sox产生测试信号</div></div></a></div><div><a href="/2021/08/23/Linux/在Linux上使用红外遥控/" title="在V3S上使用红外接收头"><img class="cover" src="/null" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-23</div><div class="title">在V3S上使用红外接收头</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/null'" alt="avatar"/></div><div class="author-info__name">xfdr0805</div><div class="author-info__description">记录</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xfdr0805"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%BF%97V3S%E4%B8%8A%E9%80%9A%E8%BF%87%E8%93%9D%E7%89%99%E6%92%AD%E6%94%BE%E9%9F%B3%E4%B9%90"><span class="toc-number">1.</span> <span class="toc-text">全志V3S上通过蓝牙播放音乐</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/29/Linux/v3s-bt-audio/" title="v3s-bt-audio">v3s-bt-audio</a><time datetime="2021-08-29T10:19:10.531Z" title="发表于 2021-08-29 18:19:10">2021-08-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/23/Linux/%E5%9C%A8Linux%E4%B8%8A%E4%BD%BF%E7%94%A8%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7/" title="在V3S上使用红外接收头">在V3S上使用红外接收头</a><time datetime="2021-08-23T07:41:53.000Z" title="发表于 2021-08-23 15:41:53">2021-08-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/08/05/Linux/v3s%E4%B8%8A%E4%BD%BF%E7%94%A8sox%E4%BA%A7%E7%94%9F%E6%B5%8B%E8%AF%95%E4%BF%A1%E5%8F%B7/" title="v3s上使用sox产生测试信号">v3s上使用sox产生测试信号</a><time datetime="2021-08-05T00:38:28.000Z" title="发表于 2021-08-05 08:38:28">2021-08-05</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/26/ESP32-Epaper/index/" title="墨水屏气象站">墨水屏气象站</a><time datetime="2021-01-26T06:59:10.000Z" title="发表于 2021-01-26 14:59:10">2021-01-26</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/25/ESP32/FAQ/" title="FAQ-常见问题列表">FAQ-常见问题列表</a><time datetime="2021-01-25T13:20:07.000Z" title="发表于 2021-01-25 21:20:07">2021-01-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By xfdr0805</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
